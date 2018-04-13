@@ -1,0 +1,147 @@
+<h1 align="center">Edit Bug</h1>
+
+<%= render 'shared/errors', obj: @bug %>
+
+
+
+<div class='row'>
+
+	<div class='col-xs-12'>
+
+		<%= form_for([@project,@bug], :html => {class: "form-horizontal", role: "form"}) do |f| %>
+
+			<div class="form-group">
+
+				<div class="control-label col-sm-2">
+
+				<%= f.label :title %>
+
+				</div>
+
+				<div class="col-sm-8">
+
+				<%= f.text_field :title, class: "form-control", placeholder: "Title of Bug", autofocus: true %>
+
+				</div>
+
+				</div>
+
+				<div class="form-group">
+
+				<div class="control-label col-sm-2">
+
+				<%= f.label :description %>
+
+				</div>
+
+				<div class="col-sm-8">
+
+				<%= f.text_area :description, rows: 10, class: "form-control", placeholder: "Body of Bug" %>
+
+				</div>
+				
+				</div>
+				<div class="form-group">
+
+					<div class="control-label col-sm-2">
+
+						<%= f.label :deadline %>
+
+					</div>
+					<div class="col-sm-8">
+
+				<%= f.date_field( :deadline) %>
+
+
+					</div>
+
+				</div>
+				<div class="form-group">
+
+					<div class="control-label col-sm-2">
+
+						<%= f.label :bug_type %>
+
+					</div>
+					<div class="col-sm-8">
+
+						<%= f.select :bug_type, options_for_select(options_bug_type,f.object.bug_type),{include_blank: true},{id:"bug-type-selection", class: "form-control"} %>
+					</div>
+
+				</div>
+				<div class="form-group " >
+				<div class="control-label col-sm-2">
+
+					<%= f.label :status %>
+
+				</div>
+				<div class="col-sm-8">
+					<% if f.object.bug_type=="Bug" %>
+						<%= f.select :status, options_for_select(options_bug_status,f.object.status),{include_blank: true},{ class: "form-control",id:"bug-dropdown"} %>
+					<%end %>
+					<% if f.object.bug_type=="Feature" %>
+						<%= f.select :status, options_for_select(options_feature_status,f.object.status),{include_blank: true},{ class: "form-control",id:"bug-dropdown"} %>
+					<%end%>
+				</div>
+				</div>
+
+				<div class="form-group">
+
+					<div class="control-label col-sm-2">
+
+						<%= f.label :developer %>
+
+					</div>
+					<div class="col-sm-8">
+
+						<%= f.collection_select(:developer_id, @project.getOnlyDevelopers, :id, :name, {include_blank: true}, { class: "form-control"})  %>
+
+					</div>
+
+				</div>
+				<div class="form-group">
+
+					<div class="control-label col-sm-2">
+
+						<%= f.label :screenshot %>
+
+					</div>
+					<div class="col-sm-8">
+
+						<%= f.file_field :screenshot %>
+				    	<% if f.object.screenshot? %>
+				      		<%= image_tag f.object.screenshot.thumb.url %>
+				      		<%= f.label :remove_screenshot %>
+				      		<%= f.check_box :remove_screenshot %> 
+				    	<% end %>
+
+					</div>
+
+				</div>
+				
+
+
+				<div class="form-group">
+
+				<div class="col-sm-offset-2 col-sm-10">
+
+				<%= f.submit class: 'btn btn-primary btn-lg' %>
+
+				</div>
+
+			</div>
+
+			<% end %>
+
+			<div class="col-xs-4 col-xs-offset-4">
+
+			[ <%= link_to "Go back to Bug", project_bug_path(@project,@bug) %> ]
+
+		</div>
+
+	</div>
+
+</div>
+</div>
+
+

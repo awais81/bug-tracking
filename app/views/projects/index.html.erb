@@ -1,0 +1,64 @@
+<h1 align="center">All Projects</h1>
+<div align="center">
+ <% if @projects.count == 0 %>
+ <div>
+	<p class="bg-info">Nothing to Show Here</p>
+ </div>
+ <% end %>
+<%= will_paginate @projects %>
+
+</div>
+
+
+<% @projects.each do |project| %>
+
+<div class="row" height:500px>
+
+<div class="col-xs-8 col-xs-offset-2">
+
+<div class="well well-lg">
+
+<div class="project-title">
+
+<%= link_to project.title, project_path(project) %>
+
+</div>
+
+<div class="project-body">
+
+<%= truncate(project.description, length: 100) %>
+
+</div>
+<div align="left">
+	<b>Created by: </b>
+	<%= simple_format(project.manager.name) %>
+
+</div>
+	<% if can? :manage, project %>
+		<div class="article-actions">
+			
+				<%= link_to "Edit this Project", edit_project_path(project), class: "btn btn-xs btn-primary" %>
+			
+				<%= link_to "Delete this Project", project_path(project), method: :delete,
+
+				data: { confirm: "Are you sure you want to delete the project?"},
+
+				class: "btn btn-xs btn-danger" %>
+
+		</div>
+	<% end %>
+	
+</div>
+
+</div>
+
+</div>
+
+
+<% end %>
+<div align="center">
+
+<%= will_paginate @projects %>
+
+</div>
+</div>
